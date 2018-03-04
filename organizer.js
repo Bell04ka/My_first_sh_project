@@ -1,5 +1,8 @@
 onload = () => {
-    document.getElementById("zadaniya").innerHTML=localStorage.db;
+    document.getElementById("zadaniya").innerHTML=localStorage.db||"";
+    document.querySelectorAll("#zadaniya .item").forEach((node) => {
+        node.classList.remove("hide");
+    });
 
     let button = document.getElementById("knopka");
 
@@ -14,7 +17,7 @@ onload = () => {
 
         localStorage.setItem("db",document.getElementById("zadaniya").innerHTML);
 
-        taskNode.onclick = () => {
+        taskNode.addEventListener("click", () => {
             if (!taskNode.classList.contains("done")) {
                 taskNode.classList.add("done");
                 let remove = confirm("Remove?");
@@ -25,7 +28,7 @@ onload = () => {
             } else {
                 taskNode.classList.remove("done");
             }
-        }
+        });
     };
 
     let filter = document.getElementById("filtr");
