@@ -1,7 +1,24 @@
 onload = () => {
-    document.getElementById("zadaniya").innerHTML=localStorage.db||"";
+
+    let doRemove = (taskNode) => {
+        return () => {
+            if (!taskNode.classList.contains("done")) {
+                taskNode.classList.add("done");
+                let remove = confirm("Remove?");
+                if (remove) {
+                    taskNode.remove();
+                    localStorage.setItem("db", document.getElementById("zadaniya").innerHTML);
+                }
+            } else {
+                taskNode.classList.remove("done");
+            }
+        }
+    };
+
+    document.getElementById("zadaniya").innerHTML = localStorage.db || "";
     document.querySelectorAll("#zadaniya .item").forEach((node) => {
         node.classList.remove("hide");
+        node.addEventListener("click", doRemove(node));
     });
 
     let button = document.getElementById("knopka");
@@ -15,20 +32,9 @@ onload = () => {
         taskNode.innerHTML = `<td>${name}</td><td>${phone}</td>`;
         tasks.append(taskNode);
 
-        localStorage.setItem("db",document.getElementById("zadaniya").innerHTML);
+        localStorage.setItem("db", document.getElementById("zadaniya").innerHTML);
 
-        taskNode.addEventListener("click", () => {
-            if (!taskNode.classList.contains("done")) {
-                taskNode.classList.add("done");
-                let remove = confirm("Remove?");
-                if (remove) {
-                    taskNode.remove();
-                    localStorage.setItem("db",document.getElementById("zadaniya").innerHTML);
-                }
-            } else {
-                taskNode.classList.remove("done");
-            }
-        });
+        taskNode.addEventListener("click", doRemove(taskNode));
     };
 
     let filter = document.getElementById("filtr");
