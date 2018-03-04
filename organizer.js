@@ -1,5 +1,8 @@
 onload = () => {
+    document.getElementById("zadaniya").innerHTML=localStorage.db;
+
     let button = document.getElementById("knopka");
+
     button.onclick = () => {
         let name = prompt("Enter the name:");
         let phone = prompt("Enter the phone:");
@@ -9,12 +12,15 @@ onload = () => {
         taskNode.innerHTML = `<td>${name}</td><td>${phone}</td>`;
         tasks.append(taskNode);
 
+        localStorage.setItem("db",document.getElementById("zadaniya").innerHTML);
+
         taskNode.onclick = () => {
             if (!taskNode.classList.contains("done")) {
                 taskNode.classList.add("done");
                 let remove = confirm("Remove?");
                 if (remove) {
                     taskNode.remove();
+                    localStorage.setItem("db",document.getElementById("zadaniya").innerHTML);
                 }
             } else {
                 taskNode.classList.remove("done");
@@ -33,4 +39,4 @@ onload = () => {
         })
     });
 
-}
+};
